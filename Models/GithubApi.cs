@@ -10,7 +10,7 @@ namespace Wox.Plugin.Devbox.Helpers
     {
         public static ApiResult QueryGithub(Query query, SettingsModel settings)
         {
-            String url = $"http://github.com/api/v3/search/repositories?sort=updated&access_token={settings.apiToken}&q={query.Search}";
+            String url = $"http://api.github.com/search/repositories?sort=updated&access_token={settings.apiToken}&q={query.Search}";
             HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
             request.ProtocolVersion = HttpVersion.Version10;
             request.Method = "GET";
