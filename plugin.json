@@ -1,0 +1,18 @@
+{
+    "ID": "C0B0B1B5E7804165AB35A98A4A58EF2B",
+    "ActionKeywords": [
+      "db",
+      "gh",
+      "c",
+      "ember"
+    ],
+    "Name": "Devbox",
+    "Description": "Devbox Plugin",
+    "Author": "Keith Clinard",
+    "Version": "1.0.0",
+    "Language": "csharp",
+    "Website": "http://www.wox.one/plugin",
+    "ExecuteFileName": "Wox.Plugin.Devbox.dll",
+    "IcoPath": "Prompt.png"
+  }
+  

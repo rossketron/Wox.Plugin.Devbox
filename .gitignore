@@ -1,0 +1,25 @@
+*.suo
+*.user
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+[Bb]in/
+[Oo]bj/
+
+# MSTest test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+.vs
+[Bb]ackup
+UpgradeLog.htm
+
+node_modules
+
+package-lock.json

@@ -1,0 +1,10 @@
+{
+  "name": "wox.plugin.devbox",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Main.cs",
+  "author": "",
+  "dependencies": {
+    "ember-rfc176-data": "0.3.12"
+  }
+}
