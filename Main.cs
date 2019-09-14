@@ -61,6 +61,10 @@ namespace Wox.Plugin.Devbox
                 {
                     return Ember.Query(query, settings, context);
                 }
+                else if (query.ActionKeyword.Equals("c"))
+                {
+                    return VSCode.Query(query, settings, context);
+                }
                 else if (String.IsNullOrEmpty(settings.apiToken))
                 {
                     list.Add(new Result
@@ -78,10 +82,6 @@ namespace Wox.Plugin.Devbox
                 else if (query.ActionKeyword.Equals("gh"))
                 {
                     return Github.Query(query, settings, context);
-                }
-                else if (query.ActionKeyword.Equals("c"))
-                {
-                    return VSCode.Query(query, settings, context);
                 }
                 else
                 {

@@ -10,7 +10,13 @@ namespace Wox.Plugin.Devbox.Helpers
     {
         public static ApiResult QueryGithub(Query query, SettingsModel settings)
         {
-            String url = $"http://api.github.com/search/repositories?sort=updated&access_token={settings.apiToken}&q={query.Search}";
+            ServicePointManager.Expect100Continue = true;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
+                | SecurityProtocolType.Tls11
+                | SecurityProtocolType.Tls12
+                | SecurityProtocolType.Ssl3;
+                
+            String url = $"https://api.github.com/search/repositories?access_token={settings.apiToken}&q={query.Search}";
             HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
             request.ProtocolVersion = HttpVersion.Version10;
             request.Method = "GET";
