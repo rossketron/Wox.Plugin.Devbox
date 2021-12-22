@@ -10,17 +10,15 @@ namespace Wox.Plugin.Devbox.Plugins
   {
     private static readonly string ico = "Prompt.png";
 
-    public static void openResultInVSCode(string result, SettingsModel settings)
+    public static void OpenVSCode(string folder, Boolean useWsl, SettingsModel settings)
     {
-      openVSCode(result, settings);
-    }
 
-    public static void openVSCode(String folder, SettingsModel settings)
-    {
-      String command = $"code {folder}";
-      if (!string.IsNullOrEmpty(settings.wslName) && !string.IsNullOrEmpty(folder))
+      string command = $"code {folder}";
+      if (useWsl)
       {
-        command = $"code --folder-uri vscode-remote://wsl+{settings.wslName}{folder}";
+        string wslFolder = folder.Replace($"\\\\wsl$\\{settings.WslDistroName}", "");
+        wslFolder = wslFolder.Replace("\\", "/");
+        command = $"code --folder-uri vscode-remote://wsl+{settings.WslDistroName}{wslFolder}";
       }
 
       ProcessStartInfo info;
@@ -45,43 +43,57 @@ namespace Wox.Plugin.Devbox.Plugins
         list.Add(new Result
         {
           Title = "Open VSCode",
-            SubTitle = "...or keep typing to search for repositories",
-            Action = (e) =>
-            {
-              openVSCode("", settings);
-              return true;
-            },
-            IcoPath = ico
+          SubTitle = "...or keep typing to search for repositories",
+          Action = (e) =>
+          {
+            OpenVSCode("", false, settings);
+            return true;
+          },
+          IcoPath = ico
         });
         return list;
       }
-
-      string searchFolder = settings.gitFolder;
-      if (!string.IsNullOrEmpty(settings.wslName))
+      var searchString = query.Search;
+      string[] splitQuery = searchString.Split(' ');
+      if (splitQuery.Length > 1)
       {
-        searchFolder = $"\\\\wsl$\\{settings.wslName}{settings.gitFolder}";
+        searchString = string.Join("*", splitQuery);
       }
-      string[] results = Directory.GetDirectories(searchFolder, $"*{query.Search}*", SearchOption.TopDirectoryOnly);
-
-      if (results.Length > 0)
+      string[] wslResults = new string[0];
+      if (!string.IsNullOrEmpty(settings.WslDistroName))
       {
-        foreach (string result in results)
+        wslResults = Directory.GetDirectories($"\\\\wsl$\\{settings.WslDistroName}{settings.WslGitFolder}", $"*{searchString}*", SearchOption.TopDirectoryOnly);
+      }
+      string[] localResults = Directory.GetDirectories(settings.GitFolder, $"*{searchString}*", SearchOption.TopDirectoryOnly);
+
+      if (wslResults.Length > 0 || localResults.Length > 0)
+      {
+        foreach (string result in wslResults)
         {
           list.Add(new Result
           {
             Title = Path.GetFileName(result),
-              IcoPath = ico,
-              Action = (e) =>
-              {
-                string folderName = result;
-                if (!string.IsNullOrEmpty(settings.wslName))
-                {
-                  folderName = folderName.Replace($"\\\\wsl$\\{settings.wslName}", "");
-                  folderName = folderName.Replace("\\", "/");
-                }
-                openResultInVSCode(folderName, settings);
-                return true;
-              }
+            SubTitle = "WSL",
+            IcoPath = ico,
+            Action = (e) =>
+            {
+              OpenVSCode(result, true, settings);
+              return true;
+            }
+          });
+        }
+        foreach (string result in localResults)
+        {
+          list.Add(new Result
+          {
+            Title = Path.GetFileName(result),
+            SubTitle = "Windows",
+            IcoPath = ico,
+            Action = (e) =>
+            {
+              OpenVSCode(result, false, settings);
+              return true;
+            }
           });
         }
       }
@@ -90,7 +102,7 @@ namespace Wox.Plugin.Devbox.Plugins
         list.Add(new Result
         {
           Title = "No Results Found",
-            IcoPath = ico
+          IcoPath = ico
         });
       }
 

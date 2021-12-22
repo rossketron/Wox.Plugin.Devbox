@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Wox.Infrastructure.Storage;
 using Wox.Plugin.Devbox.Helpers;
 
@@ -7,7 +6,6 @@ namespace Wox.Plugin.Devbox.Plugins
 {
   static class Settings
   {
-
     private static readonly string ico = "Prompt.png";
 
     public static List<Result> Query(Query query, SettingsModel settings, PluginInitContext context, PluginJsonStorage<SettingsModel> storage)
@@ -19,35 +17,46 @@ namespace Wox.Plugin.Devbox.Plugins
         list.Add(new Result
         {
           Title = "Set Github API Token",
-            SubTitle = $"Currently: \"{settings.apiToken}\"",
-            Action = (e) =>
-            {
-              context.API.ChangeQuery("db apiToken ");
-              return false;
-            },
-            IcoPath = ico
+          SubTitle = $"Currently: \"{settings.ApiToken}\"",
+          Action = (e) =>
+          {
+            context.API.ChangeQuery("db apiToken ");
+            return false;
+          },
+          IcoPath = ico
         });
         list.Add(new Result
         {
           Title = "Set Git Folder",
-            SubTitle = $"Currently: \"{settings.gitFolder}\"",
-            Action = (e) =>
-            {
-              context.API.ChangeQuery("db gitFolder ");
-              return false;
-            },
-            IcoPath = ico
+          SubTitle = $"Currently: \"{settings.GitFolder}\"",
+          Action = (e) =>
+          {
+            context.API.ChangeQuery("db gitFolder ");
+            return false;
+          },
+          IcoPath = ico
+        });
+        list.Add(new Result
+        {
+          Title = "Set WSL Git Folder",
+          SubTitle = $"Currently: \"{settings.WslGitFolder}\"",
+          Action = (e) =>
+          {
+            context.API.ChangeQuery("db wslGitFolder ");
+            return false;
+          },
+          IcoPath = ico
         });
         list.Add(new Result
         {
           Title = "Set WSL Distro Name",
-            SubTitle = $"Causes vscode shortcut to use WSL - Currently: \"{settings.wslName}\"",
-            Action = (e) =>
-            {
-              context.API.ChangeQuery("db wslName ");
-              return false;
-            },
-            IcoPath = ico
+          SubTitle = $"Currently: \"{settings.WslDistroName}\"",
+          Action = (e) =>
+          {
+            context.API.ChangeQuery("db wslDistroName ");
+            return false;
+          },
+          IcoPath = ico
         });
 
         // Other sub-plugins
@@ -55,44 +64,44 @@ namespace Wox.Plugin.Devbox.Plugins
         list.Add(new Result
         {
           Title = "Open a Repo in Gitub",
-            SubTitle = "gh",
-            Action = (e) =>
-            {
-              context.API.ChangeQuery("gh ");
-              return false;
-            },
-            IcoPath = "github.png"
+          SubTitle = "gh",
+          Action = (e) =>
+          {
+            context.API.ChangeQuery("gh ");
+            return false;
+          },
+          IcoPath = "github.png"
         });
         list.Add(new Result
         {
           Title = "Open a Repo in VSCode",
-            SubTitle = "c",
-            Action = (e) =>
-            {
-              context.API.ChangeQuery("c ");
-              return false;
-            },
-            IcoPath = "vscode.png"
+          SubTitle = "c",
+          Action = (e) =>
+          {
+            context.API.ChangeQuery("c ");
+            return false;
+          },
+          IcoPath = "vscode.png"
         });
         list.Add(new Result
         {
           Title = "Search Ember imports and copy to clipboard",
-            SubTitle = "ember",
-            Action = (e) =>
-            {
-              context.API.ChangeQuery("ember ");
-              return false;
-            },
-            IcoPath = "ember.png"
+          SubTitle = "ember",
+          Action = (e) =>
+          {
+            context.API.ChangeQuery("ember ");
+            return false;
+          },
+          IcoPath = "ember.png"
         });
         return list;
       }
 
-      String[] searchStrings = query.Search.Split(' ');
+      string[] searchStrings = query.Search.Split(' ');
 
       if ("apiToken".Equals(searchStrings[0]))
       {
-        String apiToken = "";
+        string apiToken = "";
         if (searchStrings.Length > 1)
         {
           apiToken = searchStrings[1];
@@ -100,21 +109,21 @@ namespace Wox.Plugin.Devbox.Plugins
         list.Add(new Result
         {
           Title = $"Set Github API Token to \"{apiToken}\"",
-            SubTitle = $"Currently: \"{settings.apiToken}\"",
-            Action = (e) =>
-            {
-              settings.apiToken = apiToken;
-              storage.Save();
-              return true;
-            },
-            IcoPath = ico
+          SubTitle = $"Currently: \"{settings.ApiToken}\"",
+          Action = (e) =>
+          {
+            settings.ApiToken = apiToken;
+            storage.Save();
+            return true;
+          },
+          IcoPath = ico
         });
         return list;
       }
 
       if ("gitFolder".Equals(searchStrings[0]))
       {
-        String gitFolder = "";
+        string gitFolder = "";
         if (searchStrings.Length > 1)
         {
           gitFolder = searchStrings[1];
@@ -122,36 +131,58 @@ namespace Wox.Plugin.Devbox.Plugins
         list.Add(new Result
         {
           Title = $"Set git folder to \"{gitFolder}\"",
-            SubTitle = $"Currently: \"{settings.gitFolder}\"",
-            Action = (e) =>
-            {
-              settings.gitFolder = gitFolder;
-              storage.Save();
-              return true;
-            },
-            IcoPath = ico
+          SubTitle = $"Currently: \"{settings.GitFolder}\"",
+          Action = (e) =>
+          {
+            settings.GitFolder = gitFolder;
+            storage.Save();
+            return true;
+          },
+          IcoPath = ico
         });
         return list;
       }
 
-      if ("wslName".Equals(searchStrings[0]))
+      if ("wslGitFolder".Equals(searchStrings[0]))
       {
-        String wslName = "";
+        string gitFolder = "";
         if (searchStrings.Length > 1)
         {
-          wslName = searchStrings[1];
+          gitFolder = searchStrings[1];
         }
         list.Add(new Result
         {
-          Title = $"Set WSL2 distro to \"{wslName}\"",
-            SubTitle = $"Currently: \"{settings.wslName}\"",
-            Action = (e) =>
-            {
-              settings.wslName = wslName;
-              storage.Save();
-              return true;
-            },
-            IcoPath = ico
+          Title = $"Set WSL git folder to \"{gitFolder}\"",
+          SubTitle = $"Currently: \"{settings.WslGitFolder}\"",
+          Action = (e) =>
+          {
+            settings.WslGitFolder = gitFolder;
+            storage.Save();
+            return true;
+          },
+          IcoPath = ico
+        });
+        return list;
+      }
+
+      if ("wslDistroName".Equals(searchStrings[0]))
+      {
+        string distroName = "";
+        if (searchStrings.Length > 1)
+        {
+          distroName = searchStrings[1];
+        }
+        list.Add(new Result
+        {
+          Title = $"Set WSL Distro Name to \"{distroName}\"",
+          SubTitle = $"Currently: \"{settings.WslDistroName}\"",
+          Action = (e) =>
+          {
+            settings.WslDistroName = distroName;
+            storage.Save();
+            return true;
+          },
+          IcoPath = ico
         });
         return list;
       }

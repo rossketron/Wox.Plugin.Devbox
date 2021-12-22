@@ -1,11 +1,10 @@
-﻿using System;
-
-namespace Wox.Plugin.Devbox.Helpers
+﻿namespace Wox.Plugin.Devbox.Helpers
 {
   class SettingsModel
   {
-    public String apiToken { get; set; }
-    public String gitFolder { get; set; }
-    public String wslName { get; set; }
+    public string ApiToken { get; set; }
+    public string GitFolder { get; set; }
+    public string WslGitFolder { get; set; }
+    public string WslDistroName { get; set; }
   }
 }

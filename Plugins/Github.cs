@@ -9,7 +9,7 @@ namespace Wox.Plugin.Devbox.Plugins
   {
     private static readonly string ico = "Prompt.png";
 
-    private static void openUrl(String url)
+    private static void OpenUrl(string url)
     {
       Process.Start(url);
     }
@@ -23,13 +23,13 @@ namespace Wox.Plugin.Devbox.Plugins
         list.Add(new Result
         {
           Title = "Open Github",
-            SubTitle = "...or keep typing to search for repositories",
-            Action = (e) =>
-            {
-              openUrl("http://github.com/");
-              return true;
-            },
-            IcoPath = ico
+          SubTitle = "...or keep typing to search for repositories",
+          Action = (e) =>
+          {
+            OpenUrl("http://github.com/");
+            return true;
+          },
+          IcoPath = ico
         });
         return list;
       }
@@ -43,13 +43,13 @@ namespace Wox.Plugin.Devbox.Plugins
           list.Add(new Result
           {
             Title = result.full_name,
-              SubTitle = result.description,
-              IcoPath = ico,
-              Action = (e) =>
-              {
-                openUrl(result.html_url);
-                return true;
-              }
+            SubTitle = result.description,
+            IcoPath = ico,
+            Action = (e) =>
+            {
+              OpenUrl(result.html_url);
+              return true;
+            }
           });
         }
       }
@@ -58,7 +58,7 @@ namespace Wox.Plugin.Devbox.Plugins
         list.Add(new Result
         {
           Title = "No Results Found",
-            IcoPath = ico
+          IcoPath = ico
         });
       }
 

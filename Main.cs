@@ -11,7 +11,8 @@ namespace Wox.Plugin.Devbox
     private PluginInitContext context;
     const string ico = "Prompt.png";
     const string defaultGitFolder = "C:\\git";
-    Exception startupException = null;
+    const string defaultWslGitFolder = "/git";
+    private readonly Exception startupException = null;
 
     private readonly SettingsModel settings;
     private readonly PluginJsonStorage<SettingsModel> storage;
@@ -22,9 +23,14 @@ namespace Wox.Plugin.Devbox
       {
         storage = new PluginJsonStorage<SettingsModel>();
         settings = storage.Load();
-        if (String.IsNullOrEmpty(settings.gitFolder))
+        if (string.IsNullOrEmpty(settings.GitFolder))
         {
-          settings.gitFolder = defaultGitFolder;
+          settings.GitFolder = defaultGitFolder;
+          storage.Save();
+        }
+        if (string.IsNullOrEmpty(settings.WslGitFolder))
+        {
+          settings.WslGitFolder = defaultWslGitFolder;
           storage.Save();
         }
       }
@@ -49,8 +55,8 @@ namespace Wox.Plugin.Devbox
           list.Add(new Result
           {
             Title = "Devbox Plugin",
-              SubTitle = "Error during initialization: " + startupException.Message,
-              IcoPath = ico
+            SubTitle = "Error during initialization: " + startupException.Message,
+            IcoPath = ico
           });
         }
         else if (query.ActionKeyword.Equals("db"))
@@ -65,18 +71,18 @@ namespace Wox.Plugin.Devbox
         {
           return VSCode.Query(query, settings, context);
         }
-        else if (String.IsNullOrEmpty(settings.apiToken))
+        else if (string.IsNullOrEmpty(settings.ApiToken))
         {
           list.Add(new Result
           {
             Title = "Set Github API Token",
-              SubTitle = "Set this before using this plugin",
-              Action = (e) =>
-              {
-                context.API.ChangeQuery("db apiToken ");
-                return false;
-              },
-              IcoPath = ico
+            SubTitle = "Set this before using this plugin",
+            Action = (e) =>
+            {
+              context.API.ChangeQuery("db apiToken ");
+              return false;
+            },
+            IcoPath = ico
           });
         }
         else if (query.ActionKeyword.Equals("gh"))
@@ -93,7 +99,7 @@ namespace Wox.Plugin.Devbox
         list.Add(new Result
         {
           Title = "Error: " + e.Message,
-            IcoPath = ico
+          IcoPath = ico
         });
       }
       return list;

@@ -17,7 +17,7 @@ namespace Wox.Plugin.Devbox.Plugins
     {
       if (_imports == null)
       {
-        using(StreamReader stream = new StreamReader(context.CurrentPluginMetadata.PluginDirectory + "\\mappings.json"))
+        using (StreamReader stream = new StreamReader(context.CurrentPluginMetadata.PluginDirectory + "\\mappings.json"))
         {
           var json = stream.ReadToEnd();
           _imports = JsonConvert.DeserializeObject<List<EmberImportObject>>(json);
@@ -37,16 +37,16 @@ namespace Wox.Plugin.Devbox.Plugins
         list.Add(new Result
         {
           Title = "Lookup Ember Import",
-            SubTitle = "Lookup Ember import strings and copy to clipboard",
-            IcoPath = ico
+          SubTitle = "Lookup Ember import strings and copy to clipboard",
+          IcoPath = ico
         });
         return list;
       }
       List<EmberImportObject> results = imports.FindAll(result =>
       {
         bool found = true;
-        String[] searchStrings = query.Search.Split(' ');
-        foreach (String searchSegment in searchStrings)
+        string[] searchStrings = query.Search.Split(' ');
+        foreach (string searchSegment in searchStrings)
         {
           found = found && result.global.ToLower().Contains(searchSegment.ToLower());
         }
@@ -57,9 +57,9 @@ namespace Wox.Plugin.Devbox.Plugins
       {
         foreach (EmberImportObject item in results)
         {
-          String module = item.module;
-          String export = item.export;
-          String localName = item.localName;
+          string module = item.module;
+          string export = item.export;
+          string localName = item.localName;
           if (item.deprecated && item.replacement != null)
           {
             module = item.replacement.module;
@@ -74,18 +74,18 @@ namespace Wox.Plugin.Devbox.Plugins
             }
           }
 
-          String importText = export.Equals("default") ? localName : "{ " + export + " }";
-          String clipboardText = "import " + importText + " from '" + module + "';";
+          string importText = export.Equals("default") ? localName : "{ " + export + " }";
+          string clipboardText = "import " + importText + " from '" + module + "';";
           list.Add(new Result
           {
             Title = item.global,
-              SubTitle = clipboardText,
-              IcoPath = ico,
-              Action = (e) =>
-              {
-                Clipboard.SetText(clipboardText);
-                return true;
-              }
+            SubTitle = clipboardText,
+            IcoPath = ico,
+            Action = (e) =>
+            {
+              Clipboard.SetText(clipboardText);
+              return true;
+            }
           });
         }
       }
@@ -94,7 +94,7 @@ namespace Wox.Plugin.Devbox.Plugins
         list.Add(new Result
         {
           Title = "No Results Found",
-            IcoPath = ico
+          IcoPath = ico
         });
       }
 
