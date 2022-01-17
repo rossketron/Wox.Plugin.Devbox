@@ -51,7 +51,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
-    <Compile Include="Models\ApiResult.cs" />
     <Compile Include="Models\ApiResultOwner.cs" />
     <Compile Include="Models\ApiResultRepo.cs" />
     <Compile Include="Models\DeprecatedReplacement.cs" />

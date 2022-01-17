@@ -34,11 +34,11 @@ namespace Wox.Plugin.Devbox.Plugins
         return list;
       }
 
-      ApiResult results = GithubApi.QueryGithub(query, settings);
+      List<ApiResultRepo> results = GithubApi.QueryGithub(query, settings);
 
-      if (results.total_count > 0)
+      if (results.Count > 0)
       {
-        foreach (ApiResultRepo result in results.items)
+        foreach (ApiResultRepo result in results)
         {
           list.Add(new Result
           {
