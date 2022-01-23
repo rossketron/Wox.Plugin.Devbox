@@ -38,17 +38,6 @@ namespace Wox.Plugin.Devbox.Plugins
         });
         list.Add(new Result
         {
-          Title = "Set Github UserName",
-          SubTitle = $"Currently: \"{settings.GithubUserName}\"",
-          Action = (e) =>
-          {
-            context.API.ChangeQuery("db githubUserName ");
-            return false;
-          },
-          IcoPath = ico
-        });
-        list.Add(new Result
-        {
           Title = "Set Git Folder",
           SubTitle = $"Currently: \"{settings.GitFolder}\"",
           Action = (e) =>
@@ -116,6 +105,28 @@ namespace Wox.Plugin.Devbox.Plugins
           },
           IcoPath = "ember.png"
         });
+        list.Add(new Result
+        {
+          Title = "Clone a Repo to Windows",
+          SubTitle = "wincl",
+          Action = (e) =>
+          {
+            context.API.ChangeQuery("wincl ");
+            return false;
+          },
+          IcoPath = "github.png"
+        });
+        list.Add(new Result
+        {
+          Title = "Clone a Repo to WSL",
+          SubTitle = "cl",
+          Action = (e) =>
+          {
+            context.API.ChangeQuery("cl ");
+            return false;
+          },
+          IcoPath = "github.png"
+        });
         return list;
       }
 
@@ -135,28 +146,6 @@ namespace Wox.Plugin.Devbox.Plugins
           Action = (e) =>
           {
             settings.ApiToken = apiToken;
-            storage.Save();
-            return true;
-          },
-          IcoPath = ico
-        });
-        return list;
-      }
-
-      if ("githubUserName".Equals(searchStrings[0]))
-      {
-        string githubUserName = "";
-        if (searchStrings.Length > 1)
-        {
-          githubUserName = searchStrings[1];
-        }
-        list.Add(new Result
-        {
-          Title = $"Set Github UserName to \"{githubUserName}\"",
-          SubTitle = $"Currently: \"{settings.GithubUserName}\"",
-          Action = (e) =>
-          {
-            settings.GithubUserName = githubUserName;
             storage.Save();
             return true;
           },

@@ -89,6 +89,16 @@ namespace Wox.Plugin.Devbox
         {
           return Github.Query(query, settings, context);
         }
+        else if (query.ActionKeyword.Equals("wincl"))
+        {
+          Boolean useWsl = false;
+          return Github.Clone(query, useWsl, settings, context);
+        }
+        else if (query.ActionKeyword.Equals("cl"))
+        {
+          Boolean useWsl = true;
+          return Github.Clone(query, useWsl, settings, context);
+        }
         else
         {
           return Settings.Query(query, settings, context, storage);
