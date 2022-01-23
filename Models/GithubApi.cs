@@ -4,7 +4,6 @@ using System.Net;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-
 namespace Wox.Plugin.Devbox.Helpers
 {
 

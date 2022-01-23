@@ -38,17 +38,6 @@ namespace Wox.Plugin.Devbox.Plugins
         });
         list.Add(new Result
         {
-          Title = "Set Github UserName",
-          SubTitle = $"Currently: \"{settings.GithubUserName}\"",
-          Action = (e) =>
-          {
-            context.API.ChangeQuery("db githubUserName ");
-            return false;
-          },
-          IcoPath = ico
-        });
-        list.Add(new Result
-        {
           Title = "Set Git Folder",
           SubTitle = $"Currently: \"{settings.GitFolder}\"",
           Action = (e) =>
@@ -157,28 +146,6 @@ namespace Wox.Plugin.Devbox.Plugins
           Action = (e) =>
           {
             settings.ApiToken = apiToken;
-            storage.Save();
-            return true;
-          },
-          IcoPath = ico
-        });
-        return list;
-      }
-
-      if ("githubUserName".Equals(searchStrings[0]))
-      {
-        string githubUserName = "";
-        if (searchStrings.Length > 1)
-        {
-          githubUserName = searchStrings[1];
-        }
-        list.Add(new Result
-        {
-          Title = $"Set Github UserName to \"{githubUserName}\"",
-          SubTitle = $"Currently: \"{settings.GithubUserName}\"",
-          Action = (e) =>
-          {
-            settings.GithubUserName = githubUserName;
             storage.Save();
             return true;
           },
