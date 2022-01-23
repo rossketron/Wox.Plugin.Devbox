@@ -116,6 +116,28 @@ namespace Wox.Plugin.Devbox.Plugins
           },
           IcoPath = "ember.png"
         });
+        list.Add(new Result
+        {
+          Title = "Clone a Repo to Windows",
+          SubTitle = "wincl",
+          Action = (e) =>
+          {
+            context.API.ChangeQuery("wincl ");
+            return false;
+          },
+          IcoPath = "github.png"
+        });
+        list.Add(new Result
+        {
+          Title = "Clone a Repo to WSL",
+          SubTitle = "cl",
+          Action = (e) =>
+          {
+            context.API.ChangeQuery("cl ");
+            return false;
+          },
+          IcoPath = "github.png"
+        });
         return list;
       }
 
