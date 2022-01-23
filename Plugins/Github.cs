@@ -101,9 +101,10 @@ namespace Wox.Plugin.Devbox.Plugins
         list.Add(new Result
         {
           Title = "Clone Repo",
-          SubTitle = "...keep typing to search for repositories",
+          SubTitle = "...keep typing to search for repository",
           IcoPath = ico
         });
+        return list;
       }
 
       List<ApiResultRepo> results = GithubApi.QueryGithub(query, settings);
