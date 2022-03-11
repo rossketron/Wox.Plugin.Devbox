@@ -17,15 +17,14 @@ namespace Wox.Plugin.Devbox.Plugins
     public static void CloneGithubRepo(string clone_url, Boolean useWsl, string name, SettingsModel settings)
     {
       string command = "";
+      String ssh_url = $"git@github.com:{clone_url.Remove(0, 19)}";
       if (useWsl)
       {
-        string wslGitFolder = settings.WslGitFolder;
-        wslGitFolder = wslGitFolder.Replace("/", "\\");
-        command = $"git clone {clone_url} \\\\wsl$\\{settings.WslDistroName}{wslGitFolder}\\{name}";
+        command = $"wsl --cd {settings.WslGitFolder} git clone {ssh_url}";
       }
       else
       {
-        command = $"git clone {clone_url} {settings.GitFolder}\\{name}";
+        command = $"git clone {ssh_url} {settings.GitFolder}\\{name}";
       }
 
       ProcessStartInfo info;
