@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Wox.Plugin.Devbox.Helpers;
+using Flow.Launcher.Plugin.DevBox.Helpers;
 
-namespace Wox.Plugin.Devbox.Plugins
+namespace Flow.Launcher.Plugin.DevBox.Plugins
 {
   static class Github
   {

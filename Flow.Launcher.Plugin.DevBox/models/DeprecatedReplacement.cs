@@ -1,4 +1,4 @@
-﻿namespace Wox.Plugin.Devbox.Helpers
+﻿namespace Flow.Launcher.Plugin.DevBox.Helpers
 {
   class DeprecatedReplacement
   {

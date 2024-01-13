@@ -4,7 +4,7 @@ using System.Net;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace Wox.Plugin.Devbox.Helpers
+namespace Flow.Launcher.Plugin.DevBox.Helpers
 {
 
   static class GithubApi

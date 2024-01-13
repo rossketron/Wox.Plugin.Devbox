@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Wox.Infrastructure.Storage;
-using Wox.Plugin.Devbox.Helpers;
-using Wox.Plugin.Devbox.Plugins;
+using Flow.Launcher.Plugin.DevBox.Helpers;
+using Flow.Launcher.Plugin.DevBox.Plugins;
 
-namespace Wox.Plugin.Devbox
+namespace Flow.Launcher.Plugin.DevBox
 {
   public class Main : IPlugin
   {

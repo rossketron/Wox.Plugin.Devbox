@@ -1,4 +1,4 @@
-# Wox.Plugin.Devbox
+# Flow.Launcher.Plugin.DevBox
 
 ## Usage
 
@@ -17,7 +17,7 @@ Copy the files located in the `.7z` file attached to the release
 
 To this directory:
 
-- `~\AppData\Local\Wox\app-*\Plugins\Wox.Plugin.Devbox`
+- `~\AppData\Local\Wox\app-*\Plugins\Flow.Launcher.Plugin.DevBox`
 
 Restart Wox
 
@@ -39,10 +39,10 @@ In order to test the Plugin while working:
 - If wox is currently running, you will have to `exit` wox before continuing
 - Run the provided `release.sh` script
   - Update the `WOX_VERSION` variable at the top of the script to your wox version
-  - This bundles all needed files and places them here: `~\AppData\Local\Wox\app-*\Plugins\Wox.Plugin.Devbox`
+  - This bundles all needed files and places them here: `~\AppData\Local\Wox\app-*\Plugins\Flow.Launcher.Plugin.DevBox`
 - Restart wox and test your changes
 
 Create a Release:
 
-- Use 7-zip to archive the plugin files located in the `Wox.Plugin.Devbox` directory
+- Use 7-zip to archive the plugin files located in the `Flow.Launcher.Plugin.DevBox` directory
 - Use this archive to create the release
