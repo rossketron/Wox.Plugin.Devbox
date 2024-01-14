@@ -2,7 +2,7 @@
 
 BUILD_DIR=dist
 PLUGIN="Flow.Launcher.Plugin.DevBox"
-WIN_APPDATA="$WIN_APPDATA"
+WIN_APPDATA=$(wslpath $(wslvar APPDATA))
 
 
 build() {
@@ -33,10 +33,11 @@ bundle() {
   echo ""
 }
 
-_unbundle() {
+_extract_bundle() {
   echo "==================== Unbundling Release Files ========================"
   echo ""
-  gunzip -vf $PLUGIN.tar.gz | tar -xvf && \
+  gunzip -vkf $PLUGIN.tar.gz && \
+    tar -xvf $PLUGIN.tar ; rm -rf $PLUGIN.tar && \
       echo "Finished unbundling project..." && \
         echo "" && \
           echo "The files are located at ./dist"
@@ -48,22 +49,21 @@ _install() {
   echo ""
   echo "Copying files to Flow Launcher directory..."
   echo ""
-  cp -rv /* $WIN_APPDATA/FlowLauncher/Plugins/$PLUGIN && \
-    echo "Plugins are now installed, reload plugin data in Flow Launcher to see the changes..."
+  if [[ ! -d $WIN_APPDATA/FlowLauncher/Plugins/$PLUGIN ]]; then
+    mkdir $WIN_APPDATA/FlowLauncher/Plugins/$PLUGIN
+  fi
+  cp -v $BUILD_DIR/* $WIN_APPDATA/FlowLauncher/Plugins/$PLUGIN && \
+    echo "" && \
+      echo "Plugins are now installed, reload plugin data in Flow Launcher to see the changes..."
   echo ""
 }
 
 install() {
-  if [[ "$1" == "--from-bundle" ]]; then
-    _unbundle
-    return
+  if [[ "$1" == "--from-archive" ]]; then
+    _extract_bundle
+  else
+    build
   fi
-  build
-  _install
-}
-
-install_bundle() {
-  _unbundle
   _install
 }
 
@@ -80,7 +80,7 @@ clean() {
   echo ""
   local obj_dirs=$(find . -type d -name obj)
   local bin_dirs=$(find . -type d -name bin)
-  rm -rf $PLUGIN.tar.gz node_modules $BUILD_DIR $obj_dirs $bin_dirs && \
+  rm -rf node_modules $BUILD_DIR $obj_dirs $bin_dirs && \
     echo "Finished cleaning project..."
   echo ""
 }

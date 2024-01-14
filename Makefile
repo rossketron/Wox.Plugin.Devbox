@@ -13,7 +13,7 @@ install:
 	./scripts/make.sh install
 
 install-bundle:
-	./scripts/make.sh install --from-bundle
+	./scripts/make.sh install --from-archive
 
 uninstall: 
 	./scripts/make.sh uninstall
