@@ -8,5 +8,5 @@
   "Language": "csharp",
   "Website": "https://flowlauncher.com",
   "ExecuteFileName": "Flow.Launcher.Plugin.DevBox.dll",
-  "IcoPath": "Prompt.png"
+  "IcoPath": "prompt.png"
 }

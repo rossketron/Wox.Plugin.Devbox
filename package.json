@@ -1,8 +1,8 @@
 {
-  "name": "Flow.Launcher.Plugin.DevBox",
+  "name": "flow-launcher-plugin-devbox",
   "version": "1.0.0",
   "description": "",
-  "main": "Main.cs",
+  "main": "src/main.cs",
   "author": "",
   "dependencies": {
     "ember-rfc176-data": "0.3.17"

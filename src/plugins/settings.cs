@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Flow.Launcher.Infrastructure.Storage;
-using Flow.Launcher.Plugin.DevBox.Helpers;
+using Flow.Launcher.Plugin.DevBox.PluginCore;
 
 namespace Flow.Launcher.Plugin.DevBox.Plugins
 {
@@ -17,7 +17,7 @@ namespace Flow.Launcher.Plugin.DevBox.Plugins
         list.Add(new Result
         {
           Title = "Set Github API Token",
-          SubTitle = $"Currently: \"{settings.ApiToken}\"",
+          SubTitle = $"Currently: \"{settings.apiToken}\"",
           Action = (e) =>
           {
             context.API.ChangeQuery("db apiToken ");
@@ -28,7 +28,7 @@ namespace Flow.Launcher.Plugin.DevBox.Plugins
         list.Add(new Result
         {
           Title = "Set Github API Token",
-          SubTitle = $"Currently: \"{settings.ApiToken}\"",
+          SubTitle = $"Currently: \"{settings.apiToken}\"",
           Action = (e) =>
           {
             context.API.ChangeQuery("db apiToken ");
@@ -39,7 +39,7 @@ namespace Flow.Launcher.Plugin.DevBox.Plugins
         list.Add(new Result
         {
           Title = "Set Git Folder",
-          SubTitle = $"Currently: \"{settings.GitFolder}\"",
+          SubTitle = $"Currently: \"{settings.gitFolder}\"",
           Action = (e) =>
           {
             context.API.ChangeQuery("db gitFolder ");
@@ -50,10 +50,10 @@ namespace Flow.Launcher.Plugin.DevBox.Plugins
         list.Add(new Result
         {
           Title = "Set WSL Git Folder",
-          SubTitle = $"Currently: \"{settings.WslGitFolder}\"",
+          SubTitle = $"Currently: \"{settings.wslGitFolder}\"",
           Action = (e) =>
           {
-            context.API.ChangeQuery("db wslGitFolder ");
+            context.API.ChangeQuery("db wslgitFolder ");
             return false;
           },
           IcoPath = ico
@@ -61,7 +61,7 @@ namespace Flow.Launcher.Plugin.DevBox.Plugins
         list.Add(new Result
         {
           Title = "Set WSL Distro Name",
-          SubTitle = $"Currently: \"{settings.WslDistroName}\"",
+          SubTitle = $"Currently: \"{settings.wslDistroName}\"",
           Action = (e) =>
           {
             context.API.ChangeQuery("db wslDistroName ");
@@ -142,10 +142,10 @@ namespace Flow.Launcher.Plugin.DevBox.Plugins
         list.Add(new Result
         {
           Title = $"Set Github API Token to \"{apiToken}\"",
-          SubTitle = $"Currently: \"{settings.ApiToken}\"",
+          SubTitle = $"Currently: \"{settings.apiToken}\"",
           Action = (e) =>
           {
-            settings.ApiToken = apiToken;
+            settings.apiToken = apiToken;
             storage.Save();
             return true;
           },
@@ -164,10 +164,10 @@ namespace Flow.Launcher.Plugin.DevBox.Plugins
         list.Add(new Result
         {
           Title = $"Set git folder to \"{gitFolder}\"",
-          SubTitle = $"Currently: \"{settings.GitFolder}\"",
+          SubTitle = $"Currently: \"{settings.gitFolder}\"",
           Action = (e) =>
           {
-            settings.GitFolder = gitFolder;
+            settings.gitFolder = gitFolder;
             storage.Save();
             return true;
           },
@@ -176,7 +176,7 @@ namespace Flow.Launcher.Plugin.DevBox.Plugins
         return list;
       }
 
-      if ("wslGitFolder".Equals(searchStrings[0]))
+      if ("wslgitFolder".Equals(searchStrings[0]))
       {
         string gitFolder = "";
         if (searchStrings.Length > 1)
@@ -186,10 +186,10 @@ namespace Flow.Launcher.Plugin.DevBox.Plugins
         list.Add(new Result
         {
           Title = $"Set WSL git folder to \"{gitFolder}\"",
-          SubTitle = $"Currently: \"{settings.WslGitFolder}\"",
+          SubTitle = $"Currently: \"{settings.wslGitFolder}\"",
           Action = (e) =>
           {
-            settings.WslGitFolder = gitFolder;
+            settings.wslGitFolder = gitFolder;
             storage.Save();
             return true;
           },
@@ -208,10 +208,10 @@ namespace Flow.Launcher.Plugin.DevBox.Plugins
         list.Add(new Result
         {
           Title = $"Set WSL Distro Name to \"{distroName}\"",
-          SubTitle = $"Currently: \"{settings.WslDistroName}\"",
+          SubTitle = $"Currently: \"{settings.wslDistroName}\"",
           Action = (e) =>
           {
-            settings.WslDistroName = distroName;
+            settings.wslDistroName = distroName;
             storage.Save();
             return true;
           },

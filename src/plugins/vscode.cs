@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using Flow.Launcher.Plugin.DevBox.Helpers;
+using Flow.Launcher.Plugin.DevBox.PluginCore;
 
 namespace Flow.Launcher.Plugin.DevBox.Plugins
 {
@@ -16,9 +16,9 @@ namespace Flow.Launcher.Plugin.DevBox.Plugins
       string command = $"code {folder}";
       if (useWsl)
       {
-        string wslFolder = folder.Replace($"\\\\wsl$\\{settings.WslDistroName}", "");
+        string wslFolder = folder.Replace($"\\\\wsl$\\{settings.wslDistroName}", "");
         wslFolder = wslFolder.Replace("\\", "/");
-        command = $"code --folder-uri vscode-remote://wsl+{settings.WslDistroName}{wslFolder}";
+        command = $"code --folder-uri vscode-remote://wsl+{settings.wslDistroName}{wslFolder}";
       }
 
       ProcessStartInfo info;
@@ -60,11 +60,11 @@ namespace Flow.Launcher.Plugin.DevBox.Plugins
         searchString = string.Join("*", splitQuery);
       }
       string[] wslResults = new string[0];
-      if (!string.IsNullOrEmpty(settings.WslDistroName))
+      if (!string.IsNullOrEmpty(settings.wslDistroName))
       {
-        wslResults = Directory.GetDirectories($"\\\\wsl$\\{settings.WslDistroName}{settings.WslGitFolder}", $"*{searchString}*", SearchOption.TopDirectoryOnly);
+        wslResults = Directory.GetDirectories($"\\\\wsl$\\{settings.wslDistroName}{settings.wslGitFolder}", $"*{searchString}*", SearchOption.TopDirectoryOnly);
       }
-      string[] localResults = Directory.GetDirectories(settings.GitFolder, $"*{searchString}*", SearchOption.TopDirectoryOnly);
+      string[] localResults = Directory.GetDirectories(settings.gitFolder, $"*{searchString}*", SearchOption.TopDirectoryOnly);
 
       if (wslResults.Length > 0 || localResults.Length > 0)
       {

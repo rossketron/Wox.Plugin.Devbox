@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Flow.Launcher.Plugin.DevBox.Helpers;
+using Flow.Launcher.Plugin.DevBox.PluginCore;
 
 namespace Flow.Launcher.Plugin.DevBox.Plugins
 {
@@ -20,11 +20,11 @@ namespace Flow.Launcher.Plugin.DevBox.Plugins
       String ssh_url = $"git@github.com:{clone_url.Remove(0, 19)}";
       if (useWsl)
       {
-        command = $"wsl --cd {settings.WslGitFolder} git clone {ssh_url}";
+        command = $"wsl --cd {settings.wslGitFolder} git clone {ssh_url}";
       }
       else
       {
-        command = $"git clone {ssh_url} {settings.GitFolder}\\{name}";
+        command = $"git clone {ssh_url} {settings.gitFolder}\\{name}";
       }
 
       ProcessStartInfo info;

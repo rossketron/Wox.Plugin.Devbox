@@ -1,4 +1,4 @@
-﻿namespace Flow.Launcher.Plugin.DevBox.Helpers
+﻿namespace Flow.Launcher.Plugin.DevBox.PluginCore
 {
   class ApiResultRepo
   {

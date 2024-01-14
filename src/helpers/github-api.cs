@@ -3,9 +3,8 @@ using System.Net;
 using System.Collections.Generic;
 using System.Text.Json;
 
-namespace Flow.Launcher.Plugin.DevBox.Helpers
+namespace Flow.Launcher.Plugin.DevBox.PluginCore
 {
-
   static class GithubApi
   {
     public static List<ApiResultRepo> QueryGithub(Query query, SettingsModel settings)
@@ -18,7 +17,7 @@ namespace Flow.Launcher.Plugin.DevBox.Helpers
 
       string url = $"https://api.github.com/user/repos?sort=updated";
       HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
-      request.Headers["Authorization"] = $"token {settings.ApiToken}";
+      request.Headers["Authorization"] = $"token {settings.apiToken}";
       request.ProtocolVersion = HttpVersion.Version10;
       request.Method = "GET";
       request.UserAgent = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)";

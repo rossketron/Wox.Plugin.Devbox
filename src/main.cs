@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Flow.Launcher.Infrastructure.Storage;
-using Flow.Launcher.Plugin.DevBox.Helpers;
+using Flow.Launcher.Plugin.DevBox.PluginCore;
 using Flow.Launcher.Plugin.DevBox.Plugins;
 
 namespace Flow.Launcher.Plugin.DevBox
@@ -9,9 +9,9 @@ namespace Flow.Launcher.Plugin.DevBox
   public class Main : IPlugin
   {
     private PluginInitContext context;
-    const string ico = "Prompt.png";
-    const string defaultGitFolder = "C:\\git";
-    const string defaultWslGitFolder = "/git";
+    const string ico = "prompt.png";
+    const string defaultgitFolder = "C:\\git";
+    const string defaultwslGitFolder = "/git";
     private readonly Exception startupException = null;
 
     private readonly SettingsModel settings;
@@ -23,14 +23,14 @@ namespace Flow.Launcher.Plugin.DevBox
       {
         storage = new PluginJsonStorage<SettingsModel>();
         settings = storage.Load();
-        if (string.IsNullOrEmpty(settings.GitFolder))
+        if (string.IsNullOrEmpty(settings.gitFolder))
         {
-          settings.GitFolder = defaultGitFolder;
+          settings.gitFolder = defaultgitFolder;
           storage.Save();
         }
-        if (string.IsNullOrEmpty(settings.WslGitFolder))
+        if (string.IsNullOrEmpty(settings.wslGitFolder))
         {
-          settings.WslGitFolder = defaultWslGitFolder;
+          settings.wslGitFolder = defaultwslGitFolder;
           storage.Save();
         }
       }
@@ -71,7 +71,7 @@ namespace Flow.Launcher.Plugin.DevBox
         {
           return VSCode.Query(query, settings, context);
         }
-        else if (string.IsNullOrEmpty(settings.ApiToken))
+        else if (string.IsNullOrEmpty(settings.apiToken))
         {
           list.Add(new Result
           {

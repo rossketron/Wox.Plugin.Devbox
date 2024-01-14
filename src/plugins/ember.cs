@@ -2,13 +2,13 @@
 using System.IO;
 using System.Text.Json;
 using System.Windows;
-using Flow.Launcher.Plugin.DevBox.Helpers;
+using Flow.Launcher.Plugin.DevBox.PluginCore;
 
 namespace Flow.Launcher.Plugin.DevBox.Plugins
 {
   class Ember
   {
-    private static readonly string ico = "Prompt.png";
+    private static readonly string ico = "prompt.png";
 
     private static List<EmberImportObject> _imports = null;
 
