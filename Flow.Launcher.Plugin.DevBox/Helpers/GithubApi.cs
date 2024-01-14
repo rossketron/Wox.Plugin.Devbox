@@ -1,8 +1,7 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Net;
-using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Text.Json;
 
 namespace Flow.Launcher.Plugin.DevBox.Helpers
 {
@@ -28,7 +27,7 @@ namespace Flow.Launcher.Plugin.DevBox.Helpers
       {
         StreamReader objReader = new StreamReader(stream);
         var json = objReader.ReadToEnd();
-        List<ApiResultRepo> results = JsonConvert.DeserializeObject<List<ApiResultRepo>>(json);
+        List<ApiResultRepo> results = JsonSerializer.Deserialize<List<ApiResultRepo>>(json);
         List<ApiResultRepo> filteredResultsList = new List<ApiResultRepo>();
         foreach (ApiResultRepo result in results)
         {

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Wox.Infrastructure.Storage;
+using Flow.Launcher.Infrastructure.Storage;
 using Flow.Launcher.Plugin.DevBox.Helpers;
 using Flow.Launcher.Plugin.DevBox.Plugins;
 

@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
+using System.Text.Json;
 using System.Windows;
-using Newtonsoft.Json;
 using Flow.Launcher.Plugin.DevBox.Helpers;
 
 namespace Flow.Launcher.Plugin.DevBox.Plugins
@@ -20,7 +19,7 @@ namespace Flow.Launcher.Plugin.DevBox.Plugins
         using (StreamReader stream = new StreamReader(context.CurrentPluginMetadata.PluginDirectory + "\\mappings.json"))
         {
           var json = stream.ReadToEnd();
-          _imports = JsonConvert.DeserializeObject<List<EmberImportObject>>(json);
+          _imports = JsonSerializer.Deserialize<List<EmberImportObject>>(json);
         }
       }
 

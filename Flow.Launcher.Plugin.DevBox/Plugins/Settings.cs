@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Wox.Infrastructure.Storage;
+using Flow.Launcher.Infrastructure.Storage;
 using Flow.Launcher.Plugin.DevBox.Helpers;
 
 namespace Flow.Launcher.Plugin.DevBox.Plugins
