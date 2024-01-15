@@ -3,13 +3,16 @@
   <PropertyGroup>
     <TargetFramework>net7.0-windows</TargetFramework>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
-    <OutputPath>../dist</OutputPath>
     <UseWpf>true</UseWpf>
     <DebugType>None</DebugType>
     <DebugSymbols>false</DebugSymbols>
     <GenerateDependencyFile>false</GenerateDependencyFile>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <OutputPath>../dist</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
