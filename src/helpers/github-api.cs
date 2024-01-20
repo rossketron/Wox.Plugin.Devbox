@@ -2,21 +2,22 @@
 using System.Net;
 using System.Collections.Generic;
 using System.Text.Json;
+using System.Net.Http;
 
 namespace Flow.Launcher.Plugin.DevBox.PluginCore
 {
   static class GithubApi
   {
-    public static List<ApiResultRepo> QueryGithub(Query query, SettingsModel settings)
+    private static HttpClient _httpClient = new();
+    public static List<ApiResultRepo> QueryGithub(string searchTerm, Settings settings)
     {
       ServicePointManager.Expect100Continue = true;
       ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls
         | SecurityProtocolType.Tls11
-        | SecurityProtocolType.Tls12
-        | SecurityProtocolType.Ssl3;
+        | SecurityProtocolType.Tls12;
 
       string url = $"https://api.github.com/user/repos?sort=updated";
-      HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
+      HttpWebRequest request = _httpClient.Requ
       request.Headers["Authorization"] = $"token {settings.apiToken}";
       request.ProtocolVersion = HttpVersion.Version10;
       request.Method = "GET";
@@ -30,7 +31,7 @@ namespace Flow.Launcher.Plugin.DevBox.PluginCore
         List<ApiResultRepo> filteredResultsList = new List<ApiResultRepo>();
         foreach (ApiResultRepo result in results)
         {
-          if (result.name.ToLower().Contains(query.Search.ToLower()))
+          if (result.name.ToLower().Contains(searchTerm.ToLower()))
           {
             filteredResultsList.Add(result);
           }

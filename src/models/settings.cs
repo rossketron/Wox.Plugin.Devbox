@@ -1,6 +1,6 @@
 ﻿namespace Flow.Launcher.Plugin.DevBox.PluginCore
 {
-  class SettingsModel
+  class Settings
   {
     public string apiToken { get; set; }
     public string gitFolder { get; set; }

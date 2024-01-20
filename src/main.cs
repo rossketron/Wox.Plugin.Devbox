@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Controls;
 using Flow.Launcher.Infrastructure.Storage;
 using Flow.Launcher.Plugin.DevBox.PluginCore;
 using Flow.Launcher.Plugin.DevBox.Plugins;
 
 namespace Flow.Launcher.Plugin.DevBox
 {
-  public class Main : IPlugin
+  public class Main : IPlugin, ISettingProvider
   {
     private PluginInitContext context;
     const string ico = "prompt.png";
@@ -14,14 +15,19 @@ namespace Flow.Launcher.Plugin.DevBox
     const string defaultwslGitFolder = "/git";
     private readonly Exception startupException = null;
 
-    private readonly SettingsModel settings;
-    private readonly PluginJsonStorage<SettingsModel> storage;
+    private readonly Settings settings;
+    private readonly PluginJsonStorage<Settings> storage;
+
+    public Control CreateSettingPanel()
+    {
+      throw new NotImplementedException();
+    }
 
     public Main()
     {
       try
       {
-        storage = new PluginJsonStorage<SettingsModel>();
+        storage = new PluginJsonStorage<Settings>();
         settings = storage.Load();
         if (string.IsNullOrEmpty(settings.gitFolder))
         {
@@ -59,10 +65,6 @@ namespace Flow.Launcher.Plugin.DevBox
             IcoPath = ico
           });
         }
-        else if (query.ActionKeyword.Equals("db"))
-        {
-          return Settings.Query(query, settings, context, storage);
-        }
         else if (query.ActionKeyword.Equals("ember"))
         {
           return Ember.Query(query, settings, context);
@@ -71,37 +73,13 @@ namespace Flow.Launcher.Plugin.DevBox
         {
           return VSCode.Query(query, settings, context);
         }
-        else if (string.IsNullOrEmpty(settings.apiToken))
-        {
-          list.Add(new Result
-          {
-            Title = "Set Github API Token",
-            SubTitle = "Set this before using this plugin",
-            Action = (e) =>
-            {
-              context.API.ChangeQuery("db apiToken ");
-              return false;
-            },
-            IcoPath = ico
-          });
-        }
         else if (query.ActionKeyword.Equals("gh"))
         {
           return Github.Query(query, settings, context);
         }
-        else if (query.ActionKeyword.Equals("wincl"))
-        {
-          Boolean useWsl = false;
-          return Github.Clone(query, useWsl, settings, context);
-        }
         else if (query.ActionKeyword.Equals("cl"))
         {
-          Boolean useWsl = true;
-          return Github.Clone(query, useWsl, settings, context);
-        }
-        else
-        {
-          return Settings.Query(query, settings, context, storage);
+          return Github.Clone(query, settings, context);
         }
       }
       catch (Exception e)

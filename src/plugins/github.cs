@@ -14,127 +14,111 @@ namespace Flow.Launcher.Plugin.DevBox.Plugins
       Process.Start(url);
     }
 
-    public static void CloneGithubRepo(string clone_url, Boolean useWsl, string name, SettingsModel settings)
+    public static void CloneGithubRepo(string clone_url, Boolean useWsl, string name, Settings settings)
     {
-      string command = "";
-      String ssh_url = $"git@github.com:{clone_url.Remove(0, 19)}";
-      if (useWsl)
-      {
-        command = $"wsl --cd {settings.wslGitFolder} git clone {ssh_url}";
-      }
-      else
-      {
-        command = $"git clone {ssh_url} {settings.gitFolder}\\{name}";
-      }
+      var ssh_url = $"git@github.com:{clone_url.Remove(0, 19)}";
+      var command = useWsl
+        ? $"wsl --cd {settings.wslGitFolder} git clone {ssh_url}"
+        : $"git clone {ssh_url} {settings.gitFolder}\\{name}";
 
-      ProcessStartInfo info;
-      var arguments = $"/c \"{command}\"";
-      info = new ProcessStartInfo
+      Process.Start(new ProcessStartInfo
       {
         FileName = "cmd.exe",
-        Arguments = arguments,
+        Arguments = $"/c \"{command}\"",
         UseShellExecute = true,
         WindowStyle = ProcessWindowStyle.Hidden
-      };
-
-      Process.Start(info);
+      });
     }
 
-    public static List<Result> Query(Query query, SettingsModel settings, PluginInitContext context)
+    public static List<Result> Query(Query query, Settings settings, PluginInitContext context)
     {
-      List<Result> list = new List<Result>();
+      var list = new List<Result>();
 
       if (query.Search.Length == 0)
       {
-        list.Add(new Result
-        {
-          Title = "Open Github",
-          SubTitle = "...or keep typing to search for repositories",
-          Action = (e) =>
-          {
-            OpenUrl("http://github.com/");
-            return true;
-          },
-          IcoPath = ico
-        });
-        return list;
-      }
-
-      List<ApiResultRepo> results = GithubApi.QueryGithub(query, settings);
-
-      if (results.Count > 0)
-      {
-        foreach (ApiResultRepo result in results)
-        {
-          list.Add(new Result
-          {
-            Title = result.full_name,
-            SubTitle = result.description,
-            IcoPath = ico,
+        return new List<Result> {
+          new() {
+            Title = "Open Github",
+            SubTitle = "...or keep typing to search for repositories",
             Action = (e) =>
             {
-              OpenUrl(result.html_url);
+              OpenUrl("https://github.com/");
               return true;
-            }
-          });
-        }
-      }
-      else
-      {
-        list.Add(new Result
-        {
-          Title = "No Results Found",
-          IcoPath = ico
-        });
+            },
+            IcoPath = ico
+          }
+        };
       }
 
-      return list;
+      var results = GithubApi.QueryGithub(query.Search, settings);
+      if (results.Count == 0)
+      {
+        return new List<Result> {
+          new() {
+            Title = "No Results Found",
+            IcoPath = ico
+          }
+        };
+      }
+
+      return results.ConvertAll(result => new Result
+      {
+        Title = result.full_name,
+        SubTitle = result.description,
+        IcoPath = ico,
+        Action = (e) =>
+        {
+          OpenUrl(result.html_url);
+          return true;
+        }
+      });
     }
 
-    public static List<Result> Clone(Query query, Boolean useWsl, SettingsModel settings, PluginInitContext context)
+    public static List<Result> Clone(Query query, Settings settings, PluginInitContext context)
     {
-      List<Result> list = new List<Result>();
-
       if (query.Search.Length == 0)
       {
-        list.Add(new Result
+        return new List<Result>()
         {
-          Title = "Clone Repo",
-          SubTitle = "...keep typing to search for repository",
-          IcoPath = ico
-        });
-        return list;
+          new() {
+            Title = "Clone Repo",
+            SubTitle = "...keep typing to search for repository",
+            IcoPath = ico
+          }
+        };
       }
 
-      List<ApiResultRepo> results = GithubApi.QueryGithub(query, settings);
-
-      if (results.Count > 0)
+      var useWsl = true;
+      var search = query.Search;
+      if (query.FirstSearch.Equals("win"))
       {
-        foreach (ApiResultRepo result in results)
+        useWsl = false;
+        search = query.SecondToEndSearch;
+      }
+
+      var repos = GithubApi.QueryGithub(search, settings);
+      if (repos.Count == 0)
+      {
+        return new List<Result>()
         {
-          list.Add(new Result
-          {
-            Title = result.full_name,
-            SubTitle = result.description,
-            IcoPath = ico,
-            Action = (e) =>
-            {
-              CloneGithubRepo(result.clone_url, useWsl, result.name, settings);
-              return true;
-            }
-          });
+          new() {
+            Title = "No Results Found",
+            IcoPath = ico
+          }
+        };
+      }
+
+      return repos.ConvertAll(repo => new Result
+      {
+        Title = repo.full_name,
+        SubTitle = repo.description,
+        IcoPath = ico,
+        Action = (e) =>
+        {
+          CloneGithubRepo(repo.clone_url, useWsl, repo.name, settings);
+          return true;
         }
-      }
-      else
-      {
-        list.Add(new Result
-        {
-          Title = "No Results Found",
-          IcoPath = ico
-        });
-      }
-
-      return list;
+      });
     }
   }
 }
